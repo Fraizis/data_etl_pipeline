@@ -1,0 +1,39 @@
+2026-04-10 21:18:08,567 - INFO - Connecting to the PostgreSQL database...
+2026-04-10 21:18:09,041 - INFO - PostgreSQL database version: 
+2026-04-10 21:18:09,041 - INFO - ('PostgreSQL 18.3 (Ubuntu 18.3-1.pgdg24.04+1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit',)
+2026-04-10 21:18:09,041 - WARNING - Start parsing: https://sandbox.oxylabs.io/products/1
+2026-04-10 21:27:29,415 - INFO - Connecting to the PostgreSQL database...
+2026-04-10 21:27:29,439 - INFO - PostgreSQL database version: 
+2026-04-10 21:27:29,440 - INFO - ('PostgreSQL 18.3 (Ubuntu 18.3-1.pgdg24.04+1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit',)
+2026-04-10 21:27:29,440 - WARNING - Start parsing: https://sandbox.oxylabs.io/products/1
+2026-04-10 21:28:34,465 - INFO - Getting data: ("The Legend of Zelda: Majora's Mask", 'Action Adventure, Fantasy', 5, 'As a young boy, Link is tricked by Ganondorf, the King of the Gerudo Thieves. The evil human uses Link to gain access to the Sacred Realm, where he places his tainted hands on Triforce and transforms the beautiful Hyrulean landscape into a barren wasteland. Link is determined to fix the problems he helped to create, so with the help of Rauru he travels through time gathering the powers of the Seven Sages.', 'nintendo-64', 91.99, 'singleplayer', 'Nintendo', 'https://sandbox.oxylabs.io/assets/action-adventure.svg')
+2026-04-10 21:28:35,009 - INFO - Executed query: 
+    CREATE TABLE IF NOT EXISTS nintendo_games (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(50),
+        genres VARCHAR(50),
+        rating DECIMAL,
+        description TEXT,
+        platform DECIMAL,
+        price_eur DECIMAL,
+        multiplayer VARCHAR(50),
+        developer VARCHAR(50),
+        img_url VARCHAR(200)
+    )
+    
+2026-04-10 21:28:35,049 - INFO - Executed query: 
+ 
+    insert into nintendo_games (
+        name, 
+        genres, 
+        rating, 
+        description, 
+        game_pl, 
+        price_eur, 
+        mp, 
+        developer,
+        img_url
+        ) 
+    values (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+    
+2026-04-10 21:28:35,050 - ERROR - not all arguments converted during string formatting
