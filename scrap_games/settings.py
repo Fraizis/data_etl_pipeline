@@ -1,13 +1,20 @@
 import logging
+import os
 import random
 
 import psycopg2
 from selenium import webdriver
 
+FILE_PATH = os.path.dirname(__file__)
+LOG_FILE = FILE_PATH + '/log.log'
+CSV_FILE = FILE_PATH + '/links.csv'
+URL = 'https://sandbox.oxylabs.io/products/'
+
 user_agents = [
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
-    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 OPR/129.0.0.0'
+    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 OPR/129.0.0.0',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
 ]
 
 user_agent = random.choice(user_agents)
@@ -20,7 +27,7 @@ chrome_options.add_argument("--window-size=1920,1080")
 chrome_options.add_argument(f"user-agent={user_agent}")
 
 logging.basicConfig(
-    filename='scrapping_nintendo.log',
+    filename=LOG_FILE,
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s'
 )

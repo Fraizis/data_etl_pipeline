@@ -1,8 +1,9 @@
-from scrap_games.load_data import parsing_pipeline
-from scrap_games.scrap_cards import scrap_nintendo
-from scrap_games.settings import psql_connection
+from scrap_games.load_data import create_table, load_cards
+from scrap_games.scrap_cards import scrap_card
+from scrap_games.settings import psql_connection, CSV_FILE
 
 if __name__ == '__main__':
     conn = psql_connection()
-    data = scrap_nintendo()
-    parsing_pipeline(data, conn)
+    create_table(conn)
+    data = scrap_card()
+    load_cards(data, conn)

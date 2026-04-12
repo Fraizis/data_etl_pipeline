@@ -11,11 +11,12 @@ def create_table(psql_conn):
         genres VARCHAR(50),
         rating DECIMAL,
         description TEXT,
-        platform DECIMAL,
+        platform VARCHAR(50),
         price_eur DECIMAL,
         multiplayer VARCHAR(50),
         developer VARCHAR(50),
-        img_url VARCHAR(200)
+        img_url VARCHAR(200),
+        date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
     """
     try:
@@ -37,13 +38,13 @@ def load_cards(data, psql_conn):
         genres, 
         rating, 
         description, 
-        game_pl, 
+        platform, 
         price_eur, 
-        mp, 
+        multiplayer, 
         developer,
         img_url
         ) 
-    values (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+    values (%s, %s, %s, %s, %s, %s, %s, %s, %s);
     """
     try:
         cur = psql_conn.cursor()
@@ -62,5 +63,7 @@ def load_cards(data, psql_conn):
 
 
 def parsing_pipeline(data, psql_conn):
-    create_table(psql_conn)
-    load_cards(data, psql_conn)
+    for card in data:
+        load_cards(card, psql_conn)
+
+    psql_conn.close()

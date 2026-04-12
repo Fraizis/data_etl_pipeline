@@ -18,6 +18,11 @@ url = 'https://sandbox.oxylabs.io/products/1'
 driver = webdriver.Chrome(options=options)
 driver.get(url)
 content = driver.page_source
+
+# with webdriver.Chrome(options=chrome_options) as driver:
+#     driver.get(url)
+#     content = driver.page_source
+
 # write the page content
 # with open('page.html', 'w') as fp:
 #     fp.write(content)
