@@ -60,10 +60,3 @@ def load_cards(data, psql_conn):
 
     except (Exception, psycopg2.DatabaseError) as error:
         logger.error(error)
-
-
-def parsing_pipeline(data, psql_conn):
-    for card in data:
-        load_cards(card, psql_conn)
-
-    psql_conn.close()

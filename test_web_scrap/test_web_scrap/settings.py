@@ -1,4 +1,4 @@
-# Scrapy settings for example_games project
+# Scrapy settings for test_web_scrap project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -7,16 +7,16 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = "example_games"
+BOT_NAME = "test_web_scrap"
 
-SPIDER_MODULES = ["example_games.spiders"]
-NEWSPIDER_MODULE = "example_games.spiders"
+SPIDER_MODULES = ["test_web_scrap.spiders"]
+NEWSPIDER_MODULE = "test_web_scrap.spiders"
 
 ADDONS = {}
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = "example_games (+http://www.yourdomain.com)"
+#USER_AGENT = "test_web_scrap (+http://www.yourdomain.com)"
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -41,13 +41,13 @@ DOWNLOAD_DELAY = 1
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    "example_games.middlewares.ExampleGamesSpiderMiddleware": 543,
+#    "test_web_scrap.middlewares.TestWebScrapSpiderMiddleware": 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    "example_games.middlewares.ExampleGamesDownloaderMiddleware": 543,
+#    "test_web_scrap.middlewares.TestWebScrapDownloaderMiddleware": 543,
 #}
 
 # Enable or disable extensions
@@ -59,7 +59,7 @@ DOWNLOAD_DELAY = 1
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 #ITEM_PIPELINES = {
-#    "example_games.pipelines.ExampleGamesPipeline": 300,
+#    "test_web_scrap.pipelines.TestWebScrapPipeline": 300,
 #}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -85,13 +85,3 @@ DOWNLOAD_DELAY = 1
 
 # Set settings whose default value is deprecated to a future-proof value
 FEED_EXPORT_ENCODING = "utf-8"
-
-from shutil import which
-
-SELENIUM_DRIVER_NAME = 'chrome'
-SELENIUM_DRIVER_EXECUTABLE_PATH = which('chromedriver')
-SELENIUM_DRIVER_ARGUMENTS = ['--headless']
-
-DOWNLOADER_MIDDLEWARES = {
-'scrapy_selenium.SeleniumMiddleware': 800
-}

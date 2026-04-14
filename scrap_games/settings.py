@@ -10,6 +10,11 @@ LOG_FILE = FILE_PATH + '/log.log'
 CSV_FILE = FILE_PATH + '/links.csv'
 URL = 'https://sandbox.oxylabs.io/products/'
 
+USER = 'postgres'
+PASSWORD = 'postgres'
+HOST = 'localhost'
+DB_NAME = 'mydb'
+
 user_agents = [
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
@@ -39,7 +44,7 @@ def psql_connection():
 
     try:
         logger.info('Connecting to the PostgreSQL database...')
-        conn = psycopg2.connect(host='localhost', database='mydb', user='postgres', password='postgres')
+        conn = psycopg2.connect(user=f'{USER}', password=f'{PASSWORD}', host=f'{HOST}', database=f'{DB_NAME}')
         cur = conn.cursor()
 
         cur.execute('SELECT version()')

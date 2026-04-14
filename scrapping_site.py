@@ -14,34 +14,34 @@ response = requests.get(url, headers=HEADERS)
 soup = BeautifulSoup(response.content, 'html.parser')
 # print(soup.prettify())
 
-# with open('output.txt', 'w') as f:
-#     print(soup.prettify(), file = f)
+# Найти первый абзац:
 
+first_paragraph = soup.find('p')
 
-# url1 = 'https://sandbox.oxylabs.io/products/1'
+# Найти все абзацы:
 
-# response = requests.get(url1, headers=headers)
+all_paragraphs = soup.find_all('p')
 
-#
-# soup = BeautifulSoup(response.content, 'html.parser')
-# print(soup.prettify())
+# Один элемент с классом 'content':
 
-# with open('output.txt', 'w') as f:
-#     print(soup.prettify(), file = f)
+content = soup.find(class_='content')
 
-# data = []
+# Все элементы с классом 'content':
 
-# cards = soup.find_all('a')
-# print(cards)
+all_content = soup.find_all(class_='content')
 
-# for i in cards:
-#     print(i.get('href'))
+# Поиск ссылки по href:
 
-# script_tag = sp.find('script', {"id": "__NEXT_DATA__", "type": "application/json"})
+link = soup.find('a', href='https://example.com')
 
-# if script_tag is not None:
-#     # Извлекаем содержимое тега
-#     json_data = json.loads(script_tag.get_text())
+# Поиск по нескольким атрибутам
 
-# name = sp.find('h4', class_='title css-7u5e79 eag3qlw7').text.strip()
-# print(name)
+element = soup.find('div', attrs={'id': 'main', 'class': 'content'})
+
+# Найти все абзацы с определенным классом:
+
+paragraphs = soup.find_all('p', class_='text-block')
+
+# Найти все ссылки внутри div с определенным id:
+
+links = soup.find('div', id='menu').find_all('a')

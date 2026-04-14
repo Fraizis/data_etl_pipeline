@@ -1,11 +1,14 @@
+import csv
 import json
 import random
 
+with open('', 'r') as file:
+    csv_reader = csv.DictReader(file)
+    data = list(csv_reader)
 
-def json_handle(path: str, data):
-    with open(path, mode='w', encoding='utf-8') as jsonfile:
-        json.dump(data, jsonfile, indent=4)
+# Преобразование в JSON
+json_data = json.dumps(data, indent=4)
 
-
-sl = random.random(1, 3)
-print(sl)
+# Запись JSON в файл
+with open('output.json', 'w') as file:
+    file.write(json_data)
