@@ -1,34 +1,30 @@
 import csv
-import json
-
-import pandas
 import psycopg2
-from psycopg2 import sql
 
-from walmart_analysis.settings import logger, CSV_FILE, JSON_FILE
+from walmart_analysis.settings import logger, CSV_FILE
 
 
 def create_table(psql_conn):
     q = """
     CREATE TABLE IF NOT EXISTS walmart_sales (
-        invoice_id VARCHAR(30),
-        branch VARCHAR(10),
-        city VARCHAR(30),
-        customer_type VARCHAR(30),
-        gender VARCHAR(10),
-        product_line VARCHAR(100),
-        unit_price TEXT,
-        quantity INT,
-        tax NUMERIC,
-        total NUMERIC,
-        date DATE DEFAULT CURRENT_DATE,
-        time TIME DEFAULT CURRENT_TIME,
-        payment VARCHAR(30),
-        cogs NUMERIC,
-        gross_margin_percentage NUMERIC,
-        gross_income NUMERIC,
-        rating NUMERIC
-    );
+        invoice_id VARCHAR(30) NOT NULL,
+        branch VARCHAR(5) NOT NULL,
+        city VARCHAR(30) NOT NULL,
+        customer_type VARCHAR(30) NOT NULL,
+        gender VARCHAR(10) NOT NULL,
+        product_line VARCHAR(100) NOT NULL,
+        unit_price numeric(10,2) NOT NULL,
+        quantity INT NOT NULL,
+        tax numeric(6,4) NOT NULL,
+        total numeric(10,4) NOT NULL,
+        date DATE NOT null DEFAULT CURRENT_DATE,
+        time TIME NOT null DEFAULT CURRENT_TIME,
+        payment VARCHAR(30) NOT NULL,
+        cogs numeric(10,2) NOT NULL,
+        gross_margin_percentage NUMERIC(11,9) NOT NULL,
+        gross_income NUMERIC(10,4) NOT NULL,
+        rating numeric(3,1) NOT NULL
+);
     """
     try:
         cur = psql_conn.cursor()
@@ -73,7 +69,7 @@ def save_to_db(conn, file):
             csv_reader = csv.DictReader(csvfile)
             s = [
                 (
-                    row['Invoice_ID'], row['Branch'], row['City'],
+                    row.get('Invoice_ID', ''), row['Branch'], row['City'],
                     row['Customer_type'], row['Gender'], row['Product_line'],
                     row['Unit_price'], row['Quantity'], row['Tax_5%'],
                     row['Total'], row['Date'], row['Time'],
@@ -81,7 +77,9 @@ def save_to_db(conn, file):
                     row['gross_income'], row['Rating']
                 ) for row in csv_reader
             ]
+
         logger.info(f'Executed query: {q}')
+
         cur.executemany(q, s)
         conn.commit()
 

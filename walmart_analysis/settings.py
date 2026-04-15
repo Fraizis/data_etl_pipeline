@@ -3,11 +3,8 @@ import os
 
 import psycopg2
 
-
 FILE_PATH = os.path.dirname(__file__)
-
 CSV_FILE = FILE_PATH + '/WalmartSalesData.csv.csv'
-JSON_FILE = FILE_PATH + '/WalmartSalesData.json'
 
 USER = 'postgres'
 PASSWORD = 'postgres'
