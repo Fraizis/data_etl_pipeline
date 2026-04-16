@@ -1,7 +1,7 @@
 import csv
 import psycopg2
 
-from walmart_analysis.settings import logger, CSV_FILE
+from walmart_analysis.settings import logger
 
 
 def create_table(psql_conn):
@@ -17,8 +17,8 @@ def create_table(psql_conn):
         quantity INT NOT NULL,
         tax numeric(6,4) NOT NULL,
         total numeric(10,4) NOT NULL,
-        date DATE NOT null DEFAULT CURRENT_DATE,
-        time TIME NOT null DEFAULT CURRENT_TIME,
+        cur_date DATE NOT null DEFAULT CURRENT_DATE,
+        cur_time TIME NOT null DEFAULT CURRENT_TIME,
         payment VARCHAR(30) NOT NULL,
         cogs numeric(10,2) NOT NULL,
         gross_margin_percentage NUMERIC(11,9) NOT NULL,
@@ -30,6 +30,7 @@ def create_table(psql_conn):
         cur = psql_conn.cursor()
 
         cur.execute(q)
+        logger.info(f'Creating table')
         logger.info(f'Executed query: {q}')
         cur.close()
         psql_conn.commit()
@@ -51,8 +52,8 @@ def save_to_db(conn, file):
                     Quantity,
                     Tax,
                     Total,
-                    Date,
-                    Time,
+                    cur_date,
+                    cur_time,
                     Payment,
                     cogs,
                     gross_margin_percentage,

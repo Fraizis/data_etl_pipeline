@@ -8,9 +8,9 @@ alter table walmart_sales add column IF NOT EXISTS time_of_day VARCHAR(20);
 update walmart_sales
 set time_of_day = (
 	case 
-		when time >= '10:00:00' and time <= '12:00:00' then 'Morning'
-		when time > '12:00:00' and time <= '18:00:00' then 'Afternoon'
-		when time > '18:00:00' and time <= '21:00:00' then 'Evening'
+		when cur_time >= '10:00:00' and cur_time <= '12:00:00' then 'Morning'
+		when cur_time > '12:00:00' and cur_time <= '18:00:00' then 'Afternoon'
+		when cur_time > '18:00:00' and cur_time <= '21:00:00' then 'Evening'
 	end
 );
 """
@@ -20,7 +20,7 @@ alter table walmart_sales add column IF NOT EXISTS day_name VARCHAR(20);
 
 update walmart_sales
 set day_name = (
-    TO_CHAR(date, 'Dy')
+    TO_CHAR(cur_date, 'Dy')
 );
 """
 
@@ -29,7 +29,7 @@ alter table walmart_sales add column IF NOT EXISTS month_name VARCHAR(20);
 
 update walmart_sales
 set month_name = (
-    TO_CHAR(date, 'Mon')
+    TO_CHAR(cur_date, 'Mon')
 );
 """
 

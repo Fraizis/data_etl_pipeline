@@ -6,10 +6,10 @@ import psycopg2
 FILE_PATH = os.path.dirname(__file__)
 CSV_FILE = FILE_PATH + '/WalmartSalesData.csv.csv'
 
-USER = 'postgres'
-PASSWORD = 'postgres'
-HOST = 'localhost'
-DB_NAME = 'mydb'
+USER = 'USER'
+PASSWORD = 'PASSWORD'
+HOST = 'HOST'
+DB_NAME = 'DB_NAME'
 
 logging.basicConfig(
     level=logging.INFO,
