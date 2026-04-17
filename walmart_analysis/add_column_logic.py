@@ -3,34 +3,34 @@ import psycopg2
 from walmart_analysis.settings import logger
 
 day_time = """
-alter table walmart_sales add column IF NOT EXISTS time_of_day VARCHAR(20);
-
-update walmart_sales
-set time_of_day = (
-	case 
-		when cur_time >= '10:00:00' and cur_time <= '12:00:00' then 'Morning'
-		when cur_time > '12:00:00' and cur_time <= '18:00:00' then 'Afternoon'
-		when cur_time > '18:00:00' and cur_time <= '21:00:00' then 'Evening'
-	end
-);
+    alter table walmart_sales add column IF NOT EXISTS time_of_day VARCHAR(20);
+    
+    update walmart_sales
+    set time_of_day = (
+        case 
+            when cur_time >= '10:00:00' and cur_time <= '12:00:00' then 'Morning'
+            when cur_time > '12:00:00' and cur_time <= '18:00:00' then 'Afternoon'
+            when cur_time > '18:00:00' and cur_time <= '21:00:00' then 'Evening'
+        end
+    );
 """
 
 day_name = """
-alter table walmart_sales add column IF NOT EXISTS day_name VARCHAR(20);
-
-update walmart_sales
-set day_name = (
-    TO_CHAR(cur_date, 'Dy')
-);
+    alter table walmart_sales add column IF NOT EXISTS day_name VARCHAR(20);
+    
+    update walmart_sales
+    set day_name = (
+        TO_CHAR(cur_date, 'Dy')
+    );
 """
 
 month_name = """
-alter table walmart_sales add column IF NOT EXISTS month_name VARCHAR(20);
-
-update walmart_sales
-set month_name = (
-    TO_CHAR(cur_date, 'Mon')
-);
+    alter table walmart_sales add column IF NOT EXISTS month_name VARCHAR(20);
+    
+    update walmart_sales
+    set month_name = (
+        TO_CHAR(cur_date, 'Mon')
+    );
 """
 
 

@@ -2,8 +2,17 @@ import random
 from time import sleep
 import requests
 from bs4 import BeautifulSoup
+from fake_useragent import UserAgent
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 
-from scrap_games.settings import logger, URL, user_agents
+from scrap_games.settings import URL, logger
+
+options = Options()
+options.add_argument("--headless")
+options.add_argument("--disable-gpu")
+options.add_argument("--no-sandbox")
+options.add_argument("--window-size=1920,1080")
 
 
 def scrap_card():
@@ -11,12 +20,14 @@ def scrap_card():
     cards = []
 
     while True:
-        user_agent = random.choice(user_agents)
-        print(user_agent)
+        user_agent = UserAgent().random
+        logger.info(f'User-Agent used: {user_agent}')
+
         url = f'{URL}{p}'
 
         headers = {'User-Agent': user_agent}
-        logger.warning(f'Start parsing: {url}')
+
+        logger.info(f'Start parsing: {url}')
 
         response = requests.get(url, headers=headers)
 
@@ -27,10 +38,16 @@ def scrap_card():
             logger.warning(f'Status code: {response.status_code}')
             break
 
-        sp = BeautifulSoup(response.content, 'html.parser')
+        options.add_argument(f"user-agent={user_agent}")
+
+        driver = webdriver.Chrome(options=options)
+        driver.get(url)
+
+        content = driver.page_source
+
+        sp = BeautifulSoup(content, 'html.parser')
 
         name = sp.find('h2', class_="title css-1k75zwy e1pl6npa11").text.strip()
-        print(f'Getting name: {name}')
 
         genres_search = sp.find_all('span', class_='genre css-w9wtzg e1pl6npa8')
 
@@ -40,29 +57,23 @@ def scrap_card():
             genres += s + ', '
 
         genres = genres.rstrip(', ') if genres else None
-        print(f'Getting genres: {genres}')
 
         rating = sp.find_all('svg', class_="star-icon css-1cftdwf e1pl6npa10")
         rating = len(rating) if rating else 0
-        print(f'Getting rating: {rating}')
 
         description = sp.find('p', class_="description css-mkw8pm e1pl6npa0").text.strip()
-        print(f'Getting description: {description}')
 
         dev = sp.find('span', class_="brand developer").text.strip()
 
         developer = dev.split(':')[1].strip()
-        print(f'Getting developer: {developer}')
 
         game_platform = sp.find('span', class_="game-platforms-wrapper").text.strip()
 
         game_pl = game_platform.split(':')[1].strip()
-        print(f'Getting game_pl: {game_pl}')
 
         multiplayer = sp.find(lambda tag: tag.name == 'span' and 'Type' in tag.text).text.strip()
 
         mp = multiplayer.split(':')[1].strip()
-        print(f'Getting multiplayer: {mp}')
 
         price = sp.find('div', class_="price css-o7uf8d e1pl6npa6").text.strip()
         s = price.split(' ')[0]
@@ -70,12 +81,8 @@ def scrap_card():
 
         price_eur = float(c)
 
-        print(f'Getting price_eur: {price_eur}')
-
         img = sp.find('div', class_="css-1qesdsb e1pl6npa2")
         img_url = 'https://sandbox.oxylabs.io' + img.find_all('img', class_='image')[1].get('src')
-
-        print(f'Getting img_url: {img_url}')
 
         rn = random.randint(1, 3)
 
@@ -89,5 +96,9 @@ def scrap_card():
         logger.info(f'Getting data: {data}')
         cards.append(data)
         p += 1
+
+        driver.quit()
+
+        sleep(random.randint(1, 3))
 
     return cards

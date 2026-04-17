@@ -1,9 +1,9 @@
 from pyspark.sql import SparkSession
 
-from walmart_analysis.settings import HOST, DB_NAME, PASSWORD, USER, logger
+from walmart_analysis.settings import logger
 
 
-def pyspark_analitics():
+def pyspark_analitics(user, host, db_name, password):
     logger.info(f'Building spark session...')
 
     spark = (
@@ -13,17 +13,17 @@ def pyspark_analitics():
         getOrCreate()
     )
 
-    url = f"jdbc:postgresql://{HOST}:5432/{DB_NAME}"
+    url = f"jdbc:postgresql://{host}:5432/{db_name}"
 
     properties = {
-        "user": USER,
-        "password": PASSWORD,
+        "user": user,
+        "password": password,
         "driver": "org.postgresql.Driver"
     }
 
     table_name = "walmart_sales"
 
-    logger.info(f'Spark read jdbc: {url}, {table_name}, ')
+    logger.info(f'Spark read jdbc: {url}, {table_name}')
 
     df = spark.read.jdbc(url=url, table=table_name, properties=properties)
 

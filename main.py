@@ -1,14 +1,7 @@
-import csv
-import json
-import random
+from pyspark.sql import SparkSession
 
-with open('', 'r') as file:
-    csv_reader = csv.DictReader(file)
-    data = list(csv_reader)
-
-# Преобразование в JSON
-json_data = json.dumps(data, indent=4)
-
-# Запись JSON в файл
-with open('output.json', 'w') as file:
-    file.write(json_data)
+spark = SparkSession.builder.appName("PySparkTest").getOrCreate()
+data = [("Alice", 25), ("Bob", 30), ("Cathy", 29)]
+columns = ["Name", "Age"]
+df = spark.createDataFrame(data, columns)
+df.show()

@@ -1,35 +1,9 @@
 import csv
-import json
-import logging
 from typing import Any
 
 import psycopg2
 
-
-def init_logger():
-    logging.basicConfig(
-        level=logging.INFO,
-        format='%(asctime)s - %(levelname)s - %(message)s'
-    )
-    logging.warning('Start program and logger.')
-
-
-def psql_connection():
-    conn = None
-    try:
-        logging.info('Connecting to the PostgreSQL database...')
-        conn = psycopg2.connect(host='localhost', database='mydb', user='postgres', password='postgres')
-        cur = conn.cursor()
-
-        cur.execute('SELECT version()')
-        ver_db = cur.fetchone()
-
-        logging.info(f'PostgreSQL database version: ')
-        logging.info(ver_db)
-        return conn
-
-    except (Exception, psycopg2.DatabaseError) as error:
-        logging.error(error)
+from etl_csv_country_happiness.settings import logger
 
 
 def create_table(psql_conn):
@@ -53,12 +27,12 @@ def create_table(psql_conn):
         cur = psql_conn.cursor()
 
         cur.execute(q)
-        logging.info(f'Executed query: {q}')
+        logger.info(f'Executed query: {q}')
         cur.close()
         psql_conn.commit()
 
     except (Exception, psycopg2.DatabaseError) as error:
-        logging.error(error)
+        logger.error(error)
 
 
 def extract_transform_data(path) -> list[Any]:
@@ -77,7 +51,7 @@ def extract_transform_data(path) -> list[Any]:
         data = csv.DictReader(csvfile)
 
         for row in data:
-            logging.info(f"Transforming data: {row['Country name']}, {row['Regional indicator']},"
+            logger.info(f"Transforming data: {row['Country name']}, {row['Regional indicator']},"
                          f"{row['Ladder score']}, {row['Social support']}, {row['Healthy life expectancy']}, "
                          f"{row['Freedom to make life choices']}, {row['Perceptions of corruption']}")
             transform_list.append(
@@ -106,18 +80,18 @@ def load_country(data, psql_conn):
     """
     try:
         cur = psql_conn.cursor()
-        logging.info(f'Executed query: \n {q}')
+        logger.info(f'Executed query: \n {q}')
 
         cur.executemany(q, data)
         psql_conn.commit()
-        logging.info('Insert complete.')
+        logger.info('Insert complete.')
 
         cur.close()
         psql_conn.close()
-        logging.info('Cursor and connection closed.')
+        logger.info('Cursor and connection closed.')
 
     except (Exception, psycopg2.DatabaseError) as error:
-        logging.error(error)
+        logger.error(error)
 
 
 def etl_pipeline(path, psql_conn):
