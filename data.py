@@ -9,6 +9,8 @@ user_data = {
     'db_name': 'mydb'
 }
 
+path_to_jar = '/home/fraizis/PycharmProjects/postgresql-42.7.10.jar'
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s'

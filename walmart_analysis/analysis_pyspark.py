@@ -3,13 +3,13 @@ from pyspark.sql import SparkSession
 from walmart_analysis.settings import logger
 
 
-def pyspark_analitics(user, host, db_name, password):
+def pyspark_analitics(path_to_jar, user, host, db_name, password):
     logger.info(f'Building spark session...')
 
     spark = (
         SparkSession.builder.
         appName("PostgreSQL Connection").
-        config("spark.jars", "postgresql-42.7.10.jar").
+        config("spark.jars", path_to_jar).
         getOrCreate()
     )
 

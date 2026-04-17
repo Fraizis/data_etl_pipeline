@@ -1,4 +1,4 @@
-from data import user_data, psql_connection
+from data import user_data, psql_connection, path_to_jar
 from walmart_analysis.add_column_logic import add_time_day_month
 from walmart_analysis.analysis_pyspark import pyspark_analitics
 from walmart_analysis.load_data import create_table, save_to_db
@@ -10,4 +10,4 @@ if __name__ == '__main__':
         create_table(conn)
         save_to_db(conn, CSV_FILE)
         add_time_day_month(conn)
-        pyspark_analitics(**user_data)
+        pyspark_analitics(path_to_jar=path_to_jar, **user_data)
