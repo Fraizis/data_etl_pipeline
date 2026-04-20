@@ -1,9 +1,6 @@
 from data import user_data, psql_connection
+from etl_csv_country_happiness.load_data import create_table, etl_pipeline
 from etl_csv_country_happiness.settings import CSV_FILE
-from prepare_connection import (
-    create_table,
-    etl_pipeline
-)
 
 
 def etl_happiness(**data):

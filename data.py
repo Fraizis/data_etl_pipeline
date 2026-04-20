@@ -6,14 +6,14 @@ user_data = {
     'user': 'postgres',
     'password': 'postgres',
     'host': 'localhost',
-    'db_name': 'mydb'
+    'db_name': 'db'
 }
 
-path_to_jar = '/home/fraizis/PycharmProjects/postgresql-42.7.10.jar'
+path_to_jar = '"path_to_driver"/postgresql-42.7.10.jar'
 
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logging.warning('Start program and logger.')
 

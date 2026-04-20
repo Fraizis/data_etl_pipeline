@@ -7,10 +7,6 @@ from etl_csv_country_happiness.settings import logger
 
 
 def create_table(psql_conn):
-    """
-    Country name,Regional indicator,Ladder score,Social support,Healthy life expectancy,
-    Freedom to make life choices,Perceptions of corruption
-"""
     q = """
     CREATE TABLE IF NOT EXISTS country_happiness (
         id SERIAL PRIMARY KEY,

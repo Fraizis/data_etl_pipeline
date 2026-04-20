@@ -16,14 +16,14 @@ options.add_argument("--window-size=1920,1080")
 
 
 def scrap_card():
-    p = 2999
+    page = 2999
     cards = []
 
     while True:
         user_agent = UserAgent().random
         logger.info(f'User-Agent used: {user_agent}')
 
-        url = f'{URL}{p}'
+        url = f'{URL}{page}'
 
         headers = {'User-Agent': user_agent}
 
@@ -95,7 +95,7 @@ def scrap_card():
         ]
         logger.info(f'Getting data: {data}')
         cards.append(data)
-        p += 1
+        page += 1
 
         driver.quit()
 
